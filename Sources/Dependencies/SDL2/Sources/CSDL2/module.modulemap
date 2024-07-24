@@ -1,0 +1,6 @@
+module CSDL2 {
+  exclude header "include/begin_code.h"
+  exclude header "include/close_code.h"
+  header "include/SDL.h"
+  export *
+}

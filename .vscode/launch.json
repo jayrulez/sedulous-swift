@@ -1,27 +1,27 @@
 {
     "configurations": [
         {
-            "type": "lldb",
+            "type": "swift-lldb",
             "request": "launch",
             "sourceLanguages": [
                 "swift"
             ],
             "args": [],
-            "cwd": "${workspaceFolder:Sedulous}",
+            "cwd": "${workspaceFolder:sedulous-swift}",
             "name": "Debug Sandbox",
-            "program": "${workspaceFolder:Sedulous}\\.build\\debug\\Sandbox.exe",
+            "program": "${workspaceFolder:sedulous-swift}\\.build\\debug\\Sandbox.exe",
             "preLaunchTask": "swift: Build Debug Sandbox"
         },
         {
-            "type": "lldb",
+            "type": "swift-lldb",
             "request": "launch",
             "sourceLanguages": [
                 "swift"
             ],
             "args": [],
-            "cwd": "${workspaceFolder:Sedulous}",
+            "cwd": "${workspaceFolder:sedulous-swift}",
             "name": "Release Sandbox",
-            "program": "${workspaceFolder:Sedulous}\\.build\\release\\Sandbox.exe",
+            "program": "${workspaceFolder:sedulous-swift}\\.build\\release\\Sandbox.exe",
             "preLaunchTask": "swift: Build Release Sandbox"
         }
     ]

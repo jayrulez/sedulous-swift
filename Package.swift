@@ -17,34 +17,64 @@ let package = Package(
             name: "SedulousPlatform",
             targets: ["SedulousPlatform"]),
         .library(
-            name: "SedulousPlatformSDL2",
-            targets: ["SedulousPlatformSDL2"]),
+            name: "SedulousSDL2Platform",
+            targets: ["SedulousSDL2Platform"]),
         .executable(
             name: "Sandbox",
             targets: ["Sandbox"]),
+        .plugin(name: "CopyFilesPlugin", targets: ["CopyFilesPlugin"])
+    ],
+    dependencies: [
+        .package(name: "SDL2", path: "Sources/Dependencies/SDL2")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "SedulousFoundation"),
+            name: "SedulousFoundation",
+            path: "Sources/Sedulous/Foundation"),
         .target(
             name: "SedulousCore",
-            dependencies: ["SedulousFoundation"]),
+            dependencies: ["SedulousFoundation"],
+            path: "Sources/Sedulous/Core"),
         .target(
             name: "SedulousPlatform",
-            dependencies: ["SedulousFoundation", "SedulousCore"]),
+            dependencies: ["SedulousFoundation", "SedulousCore"],
+            path: "Sources/Sedulous/Platform"),
         .target(
-            name: "SedulousPlatformSDL2",
-            dependencies: ["SedulousFoundation", "SedulousCore", "SedulousPlatform"]),
-        .target(
-            name: "Sedulous"),
+            name: "SedulousSDL2Platform",
+            dependencies: [
+                "SedulousFoundation", 
+                "SedulousCore", 
+                "SedulousPlatform", 
+                .product(name: "SDL2", package: "SDL2")
+            ],
+            path: "Sources/Sedulous/SDL2Platform"),
         .executableTarget(
             name: "Sandbox",
-            dependencies: ["SedulousFoundation", "SedulousCore", "SedulousPlatform", "SedulousPlatformSDL2"]),
+            dependencies: ["SedulousFoundation", "SedulousCore", "SedulousPlatform", "SedulousSDL2Platform"],
+            path: "Sources/Samples/Sandbox",
+            resources: [
+                .copy("../../Dependencies/SDL2/Libs")
+            ],
+            plugins: [
+                "CopyFilesPlugin"
+            ]),
         .testTarget(
             name: "SedulousFoundationTests",
             dependencies: ["SedulousFoundation"]
         ),
-    ]
+        .plugin(
+            name: "CopyFilesPlugin", 
+            capability: .command(
+                intent: .custom(
+                    verb: "copy-files", 
+                    description: "Copy files"
+                ), 
+                permissions: []
+            )
+        )
+    ],
+    cLanguageStandard: .c11,
+    cxxLanguageStandard: .cxx20
 )
