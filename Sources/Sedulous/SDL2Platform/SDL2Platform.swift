@@ -1,3 +1,5 @@
+import Foundation
+import SedulousFoundation
 import SedulousCore
 import SedulousPlatform
 import SDL2
@@ -5,11 +7,17 @@ import CSDL2
 
 public class SDL2Platform : ContextHost, Platform
 {
-    private var window: SDL2Window?;
+    public private(set) var suspended: Bool = false;
+
+    private var primaryWindow: SDL2Window?;
 
     public private(set) var isRunning: Bool = false;
 
     public private(set) var context: Context!;
+
+    private let timer: Stopwatch = .init();
+
+    private let timeTracker: TimeTracker = .init();
 
     public init()
     {
@@ -27,7 +35,7 @@ public class SDL2Platform : ContextHost, Platform
 
     public func exit()
     {
-        isRunning = false;
+        self.isRunning = false;
     }
 }
 
@@ -43,31 +51,62 @@ package extension SDL2Platform
 
         onInitialized?(context);
 
-        isRunning = true;
+        self.timer.start();
 
-        window = .init("Sandbox", 1280, 720);
+        // todo: set event filter
+
+        self.isRunning = true;
+
+        self.primaryWindow = .init("Sandbox", 1280, 720);
     }
 
     func stopMainLoop(_ onShuttingDown: ContextShuttingDownCallback? = nil)
     {
+        timer.stop();
+
+        // todo: unset event filter
+
         onShuttingDown?(context);
+
         context.shutdown();
 
-        window = nil;
+        primaryWindow = nil;
 
-        isRunning = false;
+        self.isRunning = false;
     }
 
     func runOneFrame()
     {
+        // todo: reset input states
+
         var event : SDL_Event = .init();
         while(SDL2Native.SDL_PollEvent(&event) != 0)
         {
-            if event.type == SDL_QUIT.rawValue {
+            let eventType: SDL_EventType = SDL_EventType(Int32(event.type));
+
+            if eventType == SDL_QUIT {
                 self.exit();
+            } else if eventType == SDL_WINDOWEVENT {
+
+                let windowEventType: SDL_WindowEventID = SDL_WindowEventID(Int32(event.window.event));
+                if windowEventType == SDL_WINDOWEVENT_CLOSE && event.window.windowID == primaryWindow?.id {
+                    self.exit();
+                }
+            } else {
+                // TODO: Handle mouse + keyboard input
             }
         }
 
-        context.update();
+        let elapsed: TimeSpan = self.timer.elapsed;
+        //print("Elapsed: \(elapsed.totalSeconds)");
+        self.timer.restart();
+
+        let updateTime: Time = timeTracker.increment(elapsed);
+
+        //print("Elapsed: \(updateTime.elapsedTime.totalSeconds) \t Total: \(updateTime.totalTime.totalSeconds)");
+
+        // todo: update input device states
+
+        context.update(updateTime);
     }
 }

@@ -31,4 +31,9 @@ public class SDL2Native
     {
         return Self.impl.SDL_DestroyWindow(window);
     }
+
+    public static func SDL_GetWindowID(_ window: UnsafeMutablePointer<SDL_Window>) -> UInt32
+    {
+        return Self.impl.SDL_GetWindowID(window);
+    }
 }
