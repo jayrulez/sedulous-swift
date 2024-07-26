@@ -1,4 +1,18 @@
 module CVulkan {
+
+  exclude header "include/vulkan/vulkan.hpp"
+  exclude header "include/vulkan/vulkan_enums.hpp"
+  exclude header "include/vulkan/vulkan_format_traits.hpp"
+  exclude header "include/vulkan/vulkan_funcs.hpp"
+  exclude header "include/vulkan/vulkan_handles.hpp"
+  exclude header "include/vulkan/vulkan_hash.hpp"
+  exclude header "include/vulkan/vulkan_profiles.hpp"
+  exclude header "include/vulkan/vulkan_raii.hpp"
+  exclude header "include/vulkan/vulkan_static_assertions.hpp"
+  exclude header "include/vulkan/vulkan_structs.hpp"
+  exclude header "include/vulkan/vulkan_to_string.hpp"
+  exclude header "include/vulkan/vk_enum_string_helper.h"
+
   umbrella header "include/vulkan/vulkan.h"
   /* link "vulkan-1" */
   export *

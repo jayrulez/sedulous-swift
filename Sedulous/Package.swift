@@ -3,6 +3,17 @@
 
 import PackageDescription
 
+let cSettings: [CSetting] = [
+    .define("VK_USE_PLATFORM_WIN32_KHR",   .when(platforms:[.windows])),
+    .define("VK_USE_PLATFORM_ANDROID_KHR", .when(platforms:[.android])),
+    .define("VK_USE_PLATFORM_WAYLAND_KHR", .when(platforms:[.linux])),
+    .unsafeFlags(
+        [
+            "-I../Dependencies/Vulkan/Sources/CVulkan/include"
+        ]
+    )
+];
+
 let package = Package(
     name: "Sedulous",
     products: [
@@ -60,7 +71,9 @@ let package = Package(
         .target(
             name: "SedulousRHI",
             dependencies: ["SedulousCore", "SedulousPlatform"],
-            path: "Sources/RHI"),
+            path: "Sources/RHI",
+            cSettings: cSettings
+        ),
         .target(
             name: "SedulousVulkanRHI",
             dependencies: [
@@ -71,6 +84,7 @@ let package = Package(
                 .product(name: "Vulkan", package: "Vulkan")
             ],
             path: "Sources/VulkanRHI",
+            cSettings: cSettings,
             linkerSettings: [
                 .linkedLibrary("../Dependencies/Vulkan/Libs/win32-x64/vulkan-1", .when(platforms: [.windows])),
             ]
@@ -78,7 +92,9 @@ let package = Package(
         .target(
             name: "SedulousGraphics",
             dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],
-            path: "Sources/Graphics"),
+            path: "Sources/Graphics",
+            cSettings: cSettings
+        ),
         .testTarget(
             name: "SedulousFoundationTests",
             dependencies: ["SedulousFoundation"]

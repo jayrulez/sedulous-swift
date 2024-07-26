@@ -3,6 +3,12 @@
 
 import PackageDescription
 
+let cSettings: [CSetting] = [
+	.unsafeFlags([
+		"-ISources/CSDL2/include"
+	])
+];
+
 let package = Package(
     name: "SDL2",
     products: [
@@ -16,14 +22,14 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "SDL2",
-            dependencies: ["CSDL2"]
+            dependencies: ["CSDL2"],
+            cSettings: cSettings
         ),
         .target(
             name: "CSDL2",
             publicHeadersPath: ".",
-            cSettings: [
-                //.headerSearchPath("include"),
-                .define("__WIN32__", .when(platforms: [.windows]))
+            cSettings: cSettings,
+            linkerSettings: [
             ]
         )
     ],

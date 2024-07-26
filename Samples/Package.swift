@@ -3,6 +3,17 @@
 
 import PackageDescription
 
+let cSettings: [CSetting] = [
+    .define("VK_USE_PLATFORM_WIN32_KHR",   .when(platforms:[.windows])),
+    .define("VK_USE_PLATFORM_ANDROID_KHR", .when(platforms:[.android])),
+    .define("VK_USE_PLATFORM_WAYLAND_KHR", .when(platforms:[.linux])),
+    .unsafeFlags(
+        [
+            "-I../Dependencies/Vulkan/Sources/CVulkan/include"
+        ]
+    )
+];
+
 let package = Package(
     name: "Samples",
     products: [
@@ -30,7 +41,8 @@ let package = Package(
                 ],
             path: "Sources/Sandbox",
             resources: [
-            ]
+            ],
+            cSettings: cSettings
 		),
         .executableTarget(
             name: "RHI",
@@ -45,7 +57,8 @@ let package = Package(
                 ],
             path: "Sources/RHI",
             resources: [
-            ]
+            ],
+            cSettings: cSettings
 		),
     ],
     cLanguageStandard: .c11,
