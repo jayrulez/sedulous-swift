@@ -21,6 +21,16 @@ public struct ContextUpdateInfo
 
 public typealias ContextUpdateFunction = (_ info : ContextUpdateInfo) -> Void
 
+public struct ContextUpdateClosure
+{
+    private var closure: ContextUpdateFunction;
+
+    public init(_ closure: @escaping ContextUpdateFunction)
+    {
+        self.closure = closure;
+    }
+}
+
 public struct ContextUpdateFunctionInfo
 {
     public var priority : Int;
@@ -73,11 +83,6 @@ public class Context
         {
             updateFunctions[stage] = .init();
         }
-    }
-
-    deinit
-    {
-
     }
 }
 
@@ -141,6 +146,9 @@ extension Context
 
 			for info: ContextUpdateFunctionInfo in updateFunctionsToRegister
 			{
+                // guard updateFunctions[info.stage] != nil else {
+                //     fatalError("Registry for \(info.stage) wasn't initialized.");
+                // }
 				updateFunctions[info.stage]!.append(.init(priority: info.priority, function: info.function));
 			}
 			updateFunctionsToRegister.removeAll();
@@ -153,11 +161,16 @@ extension Context
 				return;
             }
 
+            func getAddress(of closure: @escaping ContextUpdateFunction) -> UnsafePointer<ContextUpdateFunction> {
+                return withUnsafePointer(to: closure) { pointer in
+                    return pointer;
+                }
+            }
+
 			for info: ContextUpdateFunctionInfo in updateFunctionsToUnregister
 			{
 				if let index: Array<RegisteredUpdateFunctionInfo>.Index = updateFunctions[info.stage]!.firstIndex(where: { registered in
-                    //return registered.function === info.function;
-                    return false;
+                    return getAddress(of: registered.function) == getAddress(of: info.function);
                 }) {
 					updateFunctions[info.stage]!.remove(at: index);
 				}
