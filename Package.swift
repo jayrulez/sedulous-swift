@@ -19,6 +19,15 @@ let package = Package(
         .library(
             name: "SedulousSDL2Platform",
             targets: ["SedulousSDL2Platform"]),
+        .library(
+            name: "SedulousRHI",
+            targets: ["SedulousRHI"]),
+        .library(
+            name: "SedulousVulkanRHI",
+            targets: ["SedulousVulkanRHI"]),
+        .library(
+            name: "SedulousGraphics",
+            targets: ["SedulousGraphics"]),
         .executable(
             name: "Sandbox",
             targets: ["Sandbox"]),
@@ -50,9 +59,21 @@ let package = Package(
                 .product(name: "SDL2", package: "SDL2")
             ],
             path: "Sources/Sedulous/SDL2Platform"),
+        .target(
+            name: "SedulousRHI",
+            dependencies: ["SedulousCore", "SedulousPlatform"],
+            path: "Sources/Sedulous/RHI"),
+        .target(
+            name: "SedulousVulkanRHI",
+            dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],
+            path: "Sources/Sedulous/VulkanRHI"),
+        .target(
+            name: "SedulousGraphics",
+            dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],
+            path: "Sources/Sedulous/Graphics"),
         .executableTarget(
             name: "Sandbox",
-            dependencies: ["SedulousFoundation", "SedulousCore", "SedulousPlatform", "SedulousSDL2Platform"],
+            dependencies: ["SedulousFoundation", "SedulousCore", "SedulousPlatform", "SedulousSDL2Platform", "SedulousRHI", "SedulousVulkanRHI", "SedulousGraphics"],
             path: "Sources/Samples/Sandbox",
             resources: [
                 .copy("../../Dependencies/SDL2/Libs")

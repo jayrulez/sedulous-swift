@@ -98,7 +98,7 @@ package extension SDL2Platform
         }
 
         let elapsed: TimeSpan = self.timer.elapsed;
-        //print("Elapsed: \(elapsed.totalSeconds)");
+        
         self.timer.restart();
 
         let updateTime: Time = timeTracker.increment(elapsed);

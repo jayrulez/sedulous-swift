@@ -155,13 +155,10 @@ package extension Context
 
 			for info: ContextUpdateFunctionInfo in updateFunctionsToUnregister
 			{
-				let index: Array<RegisteredUpdateFunctionInfo>.Index? = updateFunctions[info.stage]!.firstIndex { registered in
+				if let index: Array<RegisteredUpdateFunctionInfo>.Index = updateFunctions[info.stage]!.firstIndex(where: { registered in
                     //return registered.function === info.function;
                     return false;
-                }
-
-				if let index: Array<RegisteredUpdateFunctionInfo>.Index 
-				{
+                }) {
 					updateFunctions[info.stage]!.remove(at: index);
 				}
 			}

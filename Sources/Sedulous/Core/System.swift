@@ -29,8 +29,4 @@ open class System
     open func onInitialize(_ context: Context) { }
 
     open func onShutdown() { }
-
-    public static func == (lhs: System, rhs: System) -> Bool {
-        return lhs.name == rhs.name;
-    }
 }
