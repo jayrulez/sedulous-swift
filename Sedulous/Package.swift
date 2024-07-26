@@ -31,7 +31,8 @@ let package = Package(
         .plugin(name: "CopyFilesPlugin", targets: ["CopyFilesPlugin"])
     ],
     dependencies: [
-        .package(name: "SDL2", path: "../Dependencies/SDL2")
+        .package(name: "SDL2", path: "../Dependencies/SDL2"),
+        .package(name: "Vulkan", path: "../Dependencies/Vulkan"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -62,8 +63,18 @@ let package = Package(
             path: "Sources/RHI"),
         .target(
             name: "SedulousVulkanRHI",
-            dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],
-            path: "Sources/VulkanRHI"),
+            dependencies: [
+                "SedulousCore", 
+                "SedulousPlatform", 
+                "SedulousRHI",
+                .product(name: "CVulkan", package: "Vulkan"),
+                .product(name: "Vulkan", package: "Vulkan")
+            ],
+            path: "Sources/VulkanRHI",
+            linkerSettings: [
+                .linkedLibrary("../Dependencies/Vulkan/Libs/win32-x64/vulkan-1", .when(platforms: [.windows])),
+            ]
+        ),
         .target(
             name: "SedulousGraphics",
             dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],

@@ -113,9 +113,9 @@ package extension Context
     }
 } 
 
-package extension Context
+extension Context
 {
-    func update(_ time: Time)
+    package func update(_ time: Time)
     {
         func sortUpdateFunctions()
         {
@@ -222,22 +222,22 @@ package extension Context
         }
     }
 
-    func registerUpdateFunction(_ info: ContextUpdateFunctionInfo) {
+    public func registerUpdateFunction(_ info: ContextUpdateFunctionInfo) {
         updateFunctionsToRegister.append(info);
     }
 
-    func registerUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) {
+    public func registerUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) {
         for info: ContextUpdateFunctionInfo in infos
 		{
 			updateFunctionsToRegister.append(info);
 		}
     }
 
-    func unregisterUpdateFunction(_ info: ContextUpdateFunctionInfo) {
+    public func unregisterUpdateFunction(_ info: ContextUpdateFunctionInfo) {
         updateFunctionsToUnregister.append(info);
     }
 
-    func unregisterUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) {
+    public func unregisterUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) {
         for info: ContextUpdateFunctionInfo in infos
 		{
 			updateFunctionsToUnregister.append(info);

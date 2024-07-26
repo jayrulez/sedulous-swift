@@ -29,6 +29,6 @@ public class GraphicsSystem : System
     }
 
     private func onUpdate(_ info : ContextUpdateInfo) -> Void {
-        print("\(self.name) Update \(info.time.elapsedTime.totalSeconds)");
+        //print("\(self.name) Update \(info.time.elapsedTime.totalSeconds)");
     }
 }

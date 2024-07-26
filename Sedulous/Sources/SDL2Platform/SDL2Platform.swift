@@ -9,7 +9,7 @@ public class SDL2Platform : ContextHost, Platform
 {
     public private(set) var suspended: Bool = false;
 
-    private var primaryWindow: SDL2Window?;
+    private var primaryWindow: SDL2Window;
 
     public private(set) var isRunning: Bool = false;
 
@@ -19,13 +19,15 @@ public class SDL2Platform : ContextHost, Platform
 
     private let timeTracker: TimeTracker = .init();
 
-    public init()
+    public init(primaryWindowConfig: WindowConfiguration)
     {
-        self.context = Context.init(self);
-
         guard SDL2Native.SDL_Init(.everything) == 0 else {
             fatalError("Failed to initialize SDL2.");
         }
+
+        self.primaryWindow = .init(primaryWindowConfig.title, primaryWindowConfig.width, primaryWindowConfig.height);
+        
+        self.context = Context.init(self);
     }
 
     deinit
@@ -56,8 +58,6 @@ package extension SDL2Platform
         // todo: set event filter
 
         self.isRunning = true;
-
-        self.primaryWindow = .init("Sandbox", 1280, 720);
     }
 
     func stopMainLoop(_ onShuttingDown: ContextShuttingDownCallback? = nil)
@@ -69,8 +69,6 @@ package extension SDL2Platform
         onShuttingDown?(context);
 
         context.shutdown();
-
-        primaryWindow = nil;
 
         self.isRunning = false;
     }
@@ -89,7 +87,7 @@ package extension SDL2Platform
             } else if eventType == SDL_WINDOWEVENT {
 
                 let windowEventType: SDL_WindowEventID = SDL_WindowEventID(Int32(event.window.event));
-                if windowEventType == SDL_WINDOWEVENT_CLOSE && event.window.windowID == primaryWindow?.id {
+                if windowEventType == SDL_WINDOWEVENT_CLOSE && event.window.windowID == primaryWindow.id {
                     self.exit();
                 }
             } else {

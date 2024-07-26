@@ -23,6 +23,30 @@
             "name": "Release Sandbox",
             "program": "${workspaceFolder:Samples}\\.build\\release\\Sandbox.exe",
             "preLaunchTask": "swift: Build Release Sandbox"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Samples}",
+            "name": "Debug RHI",
+            "program": "${workspaceFolder:Samples}\\.build\\debug\\RHI.exe",
+            "preLaunchTask": "swift: Build Debug RHI"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Samples}",
+            "name": "Release RHI",
+            "program": "${workspaceFolder:Samples}\\.build\\release\\RHI.exe",
+            "preLaunchTask": "swift: Build Release RHI"
         }
     ]
 }

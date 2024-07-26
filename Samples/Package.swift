@@ -10,9 +10,11 @@ let package = Package(
         .executable(
             name: "Sandbox",
             targets: ["Sandbox"]),
+        .executable(
+            name: "RHI",
+            targets: ["RHI"]),
     ],
     dependencies: [
-        //.package(name: "SDL2", path: "../Dependencies/SDL2")
         .package(name: "Sedulous", path: "../Sedulous")
     ],
     targets: [
@@ -24,14 +26,25 @@ let package = Package(
                 .product(name: "SedulousFoundation", package: "Sedulous"), 
                 .product(name: "SedulousCore", package: "Sedulous"), 
                 .product(name: "SedulousPlatform", package: "Sedulous"), 
+                .product(name: "SedulousSDL2Platform", package: "Sedulous"),
+                ],
+            path: "Sources/Sandbox",
+            resources: [
+            ]
+		),
+        .executableTarget(
+            name: "RHI",
+            dependencies: [
+                .product(name: "SedulousFoundation", package: "Sedulous"), 
+                .product(name: "SedulousCore", package: "Sedulous"), 
+                .product(name: "SedulousPlatform", package: "Sedulous"), 
                 .product(name: "SedulousSDL2Platform", package: "Sedulous"), 
                 .product(name: "SedulousRHI", package: "Sedulous"), 
                 .product(name: "SedulousVulkanRHI", package: "Sedulous"), 
                 .product(name: "SedulousGraphics", package: "Sedulous")
                 ],
-            path: "Sources/Sandbox",
+            path: "Sources/RHI",
             resources: [
-                //.copy("../../Dependencies/SDL2/Libs")
             ]
 		),
     ],

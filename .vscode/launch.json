@@ -1,0 +1,52 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:sedulous-swift}\\Samples",
+            "name": "Debug Sandbox (Samples)",
+            "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\debug\\Sandbox.exe",
+            "preLaunchTask": "swift: Build Debug Sandbox (Samples)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:sedulous-swift}\\Samples",
+            "name": "Release Sandbox (Samples)",
+            "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\release\\Sandbox.exe",
+            "preLaunchTask": "swift: Build Release Sandbox (Samples)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:sedulous-swift}\\Samples",
+            "name": "Debug RHI (Samples)",
+            "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\debug\\RHI.exe",
+            "preLaunchTask": "swift: Build Debug RHI (Samples)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:sedulous-swift}\\Samples",
+            "name": "Release RHI (Samples)",
+            "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\release\\RHI.exe",
+            "preLaunchTask": "swift: Build Release RHI (Samples)"
+        }
+    ]
+}
