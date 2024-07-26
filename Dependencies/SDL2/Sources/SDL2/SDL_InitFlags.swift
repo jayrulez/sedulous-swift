@@ -9,7 +9,7 @@ public struct SDL_InitFlags : OptionSet, Sendable
     public static let haptic          = Self(rawValue: 0x00001000);
     public static let gamecontroller  = Self(rawValue: 0x00002000);
     public static let events          = Self(rawValue: 0x00004000);
-    //public static let sensor          = Self(rawValue: 0x00008000);
+    public static let sensor          = Self(rawValue: 0x00008000);
     public static let noparachute     = Self(rawValue: 0x00100000);
 
     public static let everything: Self = [
@@ -20,7 +20,7 @@ public struct SDL_InitFlags : OptionSet, Sendable
         .joystick , 
         .haptic , 
         .gamecontroller, 
-        //.sensor
+        .sensor
     ]
 
     public init(rawValue: UInt32)
