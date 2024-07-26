@@ -21,15 +21,15 @@ public struct ContextUpdateInfo
 
 public typealias ContextUpdateFunction = (_ info : ContextUpdateInfo) -> Void
 
-public struct ContextUpdateClosure
-{
-    private var closure: ContextUpdateFunction;
+// public struct ContextUpdateClosure
+// {
+//     private var closure: ContextUpdateFunction;
 
-    public init(_ closure: @escaping ContextUpdateFunction)
-    {
-        self.closure = closure;
-    }
-}
+//     public init(_ closure: @escaping ContextUpdateFunction)
+//     {
+//         self.closure = closure;
+//     }
+// }
 
 public struct ContextUpdateFunctionInfo
 {
