@@ -28,28 +28,25 @@ let package = Package(
         .library(
             name: "SedulousGraphics",
             targets: ["SedulousGraphics"]),
-        .executable(
-            name: "Sandbox",
-            targets: ["Sandbox"]),
         .plugin(name: "CopyFilesPlugin", targets: ["CopyFilesPlugin"])
     ],
     dependencies: [
-        .package(name: "SDL2", path: "Sources/Dependencies/SDL2")
+        .package(name: "SDL2", path: "../Dependencies/SDL2")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "SedulousFoundation",
-            path: "Sources/Sedulous/Foundation"),
+            path: "Sources/Foundation"),
         .target(
             name: "SedulousCore",
             dependencies: ["SedulousFoundation"],
-            path: "Sources/Sedulous/Core"),
+            path: "Sources/Core"),
         .target(
             name: "SedulousPlatform",
             dependencies: ["SedulousFoundation", "SedulousCore"],
-            path: "Sources/Sedulous/Platform"),
+            path: "Sources/Platform"),
         .target(
             name: "SedulousSDL2Platform",
             dependencies: [
@@ -58,29 +55,19 @@ let package = Package(
                 "SedulousPlatform", 
                 .product(name: "SDL2", package: "SDL2")
             ],
-            path: "Sources/Sedulous/SDL2Platform"),
+            path: "Sources/SDL2Platform"),
         .target(
             name: "SedulousRHI",
             dependencies: ["SedulousCore", "SedulousPlatform"],
-            path: "Sources/Sedulous/RHI"),
+            path: "Sources/RHI"),
         .target(
             name: "SedulousVulkanRHI",
             dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],
-            path: "Sources/Sedulous/VulkanRHI"),
+            path: "Sources/VulkanRHI"),
         .target(
             name: "SedulousGraphics",
             dependencies: ["SedulousCore", "SedulousPlatform", "SedulousRHI"],
-            path: "Sources/Sedulous/Graphics"),
-        .executableTarget(
-            name: "Sandbox",
-            dependencies: ["SedulousFoundation", "SedulousCore", "SedulousPlatform", "SedulousSDL2Platform", "SedulousRHI", "SedulousVulkanRHI", "SedulousGraphics"],
-            path: "Sources/Samples/Sandbox",
-            resources: [
-                .copy("../../Dependencies/SDL2/Libs")
-            ],
-            plugins: [
-                "CopyFilesPlugin"
-            ]),
+            path: "Sources/Graphics"),
         .testTarget(
             name: "SedulousFoundationTests",
             dependencies: ["SedulousFoundation"]
