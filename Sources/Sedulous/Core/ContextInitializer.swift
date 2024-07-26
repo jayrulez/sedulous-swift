@@ -1,22 +1,15 @@
 public class ContextInitializer
 {
-    internal var systems: [any System] = .init();
+    internal var systems: [System] = .init();
 
-    package init()
+    package init() { }
+
+    @discardableResult
+    public func addSystem(_ system: System) -> Self
     {
-
-    }
-
-    deinit
-    {
-
-    }
-
-    public func addSystem(_ system: any System) -> Self
-    {
-        //if !systems.contains(system) {
-        //    systems.append(system);
-        //}
+        if !systems.contains(where: { element in  return element === system }) {
+            systems.append(system);
+        }
         return self;
     }
 }
