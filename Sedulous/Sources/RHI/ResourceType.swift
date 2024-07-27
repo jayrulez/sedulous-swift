@@ -1,7 +1,7 @@
 import Foundation
 
 /// The shader resource type.
-enum ResourceType: UInt8 {
+public enum ResourceType: UInt8 {
     /// A `Buffer` accessed as a uniform buffer.
     case constantBuffer
     /// A `Buffer` accessed as a read-only storage buffer.

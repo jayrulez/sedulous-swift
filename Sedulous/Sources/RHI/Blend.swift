@@ -1,7 +1,7 @@
 import Foundation
 
 /// Blend factors, which modulate values for the pixel shader and render target.
-enum Blend: UInt8 {
+public enum Blend: UInt8, Sendable {
     /// The data source is the color black (0, 0, 0, 0). No pre-blend operation.
     case zero = 1
     /// The data source is the color white (1, 1, 1, 1). No pre-blend operation.

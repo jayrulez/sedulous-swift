@@ -3,23 +3,23 @@ import Foundation
 /// Contains properties that describe a framebuffer texture attachment description.
 public struct FrameBufferAttachment: Equatable, Hashable {
     /// The number of slices to attach.
-    public var sliceCount: UInt
+    public var sliceCount: UInt32
     
     /// The selected MipLevel.
-    public var mipSlice: UInt
+    public var mipSlice: UInt32
     
     /// The attachment texture. This is the texture used by the framebuffer as attachment.
     /// If this texture has MSAA enabled, you could set the ResolvedTexture field with a non MSAA texture. After the EndRenderPass, this texture will be resolved into this.
     public var attachmentTexture: any Texture
     
     /// The selected array slice.
-    public var attachedFirstSlice: UInt
+    public var attachedFirstSlice: UInt32
     
     /// The resolved texture. If the source texture has MSAA enabled, in the EndRenderPass this texture is resolved into this texture.
     public var resolvedTexture: (any Texture)?
     
     /// The selected array slice.
-    public var resolvedFirstSlice: UInt
+    public var resolvedFirstSlice: UInt32
     
     /// Gets the texture used as a shader resource.
     public var texture: any Texture {
@@ -27,7 +27,7 @@ public struct FrameBufferAttachment: Equatable, Hashable {
     }
     
     /// Gets the selected array slice of the texture used as a shader resource.
-    public var firstSlice: UInt {
+    public var firstSlice: UInt32 {
         return resolvedTexture == nil ? attachedFirstSlice : resolvedFirstSlice
     }
     
@@ -38,7 +38,7 @@ public struct FrameBufferAttachment: Equatable, Hashable {
     ///   - faceIndex: The face index to compute the specific slide inside the texture.
     ///   - sliceCount: The slice count.
     ///   - mipLevel: The selected mipLevel.
-    public init(attachedTexture: any Texture, arrayIndex: UInt, faceIndex: UInt, sliceCount: UInt, mipLevel: UInt) {
+    public init(attachedTexture: any Texture, arrayIndex: UInt32, faceIndex: UInt32, sliceCount: UInt32, mipLevel: UInt32) {
         self.init(attachedTexture: attachedTexture, attachedFirstSlice: arrayIndex * attachedTexture.description.faces + faceIndex, resolvedTexture: nil, resolvedFirstSlice: 0, sliceCount: sliceCount, mipLevel: mipLevel)
     }
     
@@ -48,7 +48,7 @@ public struct FrameBufferAttachment: Equatable, Hashable {
     ///   - firstSlice: The first slice.
     ///   - sliceCount: The slice count.
     ///   - mipLevel: The selected mipLevel.
-    public init(attachedTexture: any Texture, firstSlice: UInt, sliceCount: UInt, mipLevel: UInt = 0) {
+    public init(attachedTexture: any Texture, firstSlice: UInt32, sliceCount: UInt32, mipLevel: UInt32 = 0) {
         self.init(attachedTexture: attachedTexture, attachedFirstSlice: firstSlice, resolvedTexture: nil, resolvedFirstSlice: 0, sliceCount: sliceCount, mipLevel: mipLevel)
     }
     
@@ -68,7 +68,7 @@ public struct FrameBufferAttachment: Equatable, Hashable {
     ///   - resolvedFirstSlice: The first slice on the resolved texture.
     ///   - sliceCount: The slice count on the resolved texture.
     ///   - mipLevel: The selected mipLevel on the resolved texture.
-    public init(attachedTexture: any Texture, attachedFirstSlice: UInt, resolvedTexture: (any Texture)?, resolvedFirstSlice: UInt, sliceCount: UInt, mipLevel: UInt) {
+    public init(attachedTexture: any Texture, attachedFirstSlice: UInt32, resolvedTexture: (any Texture)?, resolvedFirstSlice: UInt32, sliceCount: UInt32, mipLevel: UInt32) {
         if let resolvedTexture = resolvedTexture {
             guard resolvedTexture.description.sampleCount == .none else {
                 fatalError("The resolved texture must have SampleCount == None")
@@ -87,21 +87,21 @@ public struct FrameBufferAttachment: Equatable, Hashable {
     
     public static func ==(lhs: FrameBufferAttachment, rhs: FrameBufferAttachment) -> Bool {
         return 
-            //lhs.attachmentTexture == rhs.attachmentTexture &&
+            lhs.attachmentTexture === rhs.attachmentTexture &&
             lhs.attachedFirstSlice == rhs.attachedFirstSlice &&
             lhs.sliceCount == rhs.sliceCount &&
             lhs.mipSlice == rhs.mipSlice &&
-            //lhs.resolvedTexture == rhs.resolvedTexture &&
+            lhs.resolvedTexture === rhs.resolvedTexture &&
             lhs.resolvedFirstSlice == rhs.resolvedFirstSlice
     }
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(attachmentTexture)
+        hasher.combine(ObjectIdentifier(attachmentTexture).hashValue)
         hasher.combine(attachedFirstSlice)
         hasher.combine(sliceCount)
         hasher.combine(mipSlice)
         if let resolvedTexture = resolvedTexture {
-            hasher.combine(resolvedTexture)
+            hasher.combine(ObjectIdentifier(resolvedTexture).hashValue)
             hasher.combine(resolvedFirstSlice)
         }
     }

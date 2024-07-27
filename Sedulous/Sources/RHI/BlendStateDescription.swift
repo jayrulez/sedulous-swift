@@ -1,40 +1,40 @@
 import Foundation
 
 /// Describes the blend state.
-struct BlendStateDescription: Equatable, Hashable {
+public struct BlendStateDescription: Equatable, Hashable, Sendable {
     /// Specifies whether to use alpha-to-coverage as a multisampling technique when setting a pixel to a render target.
-    var alphaToCoverageEnable: Bool
+    public var alphaToCoverageEnable: Bool
 
     /// Specifies whether to enable independent blending in simultaneous render targets. Set to TRUE to enable independent blending.
     /// If set to FALSE, only the RenderTarget[0] members are used; RenderTarget[1..7] are ignored.
-    var independentBlendEnable: Bool
+    public var independentBlendEnable: Bool
 
     /// RenderTarget blend description 0 / 7.
-    var renderTarget0: BlendStateRenderTargetDescription
+    public var renderTarget0: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 1 / 7.
-    var renderTarget1: BlendStateRenderTargetDescription
+    public var renderTarget1: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 2 / 7.
-    var renderTarget2: BlendStateRenderTargetDescription
+    public var renderTarget2: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 3 / 7.
-    var renderTarget3: BlendStateRenderTargetDescription
+    public var renderTarget3: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 4 / 7.
-    var renderTarget4: BlendStateRenderTargetDescription
+    public var renderTarget4: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 5 / 7.
-    var renderTarget5: BlendStateRenderTargetDescription
+    public var renderTarget5: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 6 / 7.
-    var renderTarget6: BlendStateRenderTargetDescription
+    public var renderTarget6: BlendStateRenderTargetDescription
 
     /// RenderTarget blend description 7 / 7.
-    var renderTarget7: BlendStateRenderTargetDescription
+    public var renderTarget7: BlendStateRenderTargetDescription
 
     /// Gets default values for BlendStateDescription.
-    static var `default`: BlendStateDescription {
+    public static var `default`: BlendStateDescription {
         var defaultInstance = BlendStateDescription(
             alphaToCoverageEnable: false,
             independentBlendEnable: false,
@@ -52,7 +52,7 @@ struct BlendStateDescription: Equatable, Hashable {
     }
 
     /// Default BlendStateDescription values.
-    mutating func setDefault() {
+    public mutating func setDefault() {
         alphaToCoverageEnable = false
         independentBlendEnable = false
         renderTarget0 = .default
@@ -68,7 +68,7 @@ struct BlendStateDescription: Equatable, Hashable {
     /// Returns a hash code for this instance.
     /// - Parameter other: Other used to compare.
     /// - Returns: A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-    static func ==(lhs: BlendStateDescription, rhs: BlendStateDescription) -> Bool {
+    public static func ==(lhs: BlendStateDescription, rhs: BlendStateDescription) -> Bool {
         return lhs.alphaToCoverageEnable == rhs.alphaToCoverageEnable &&
             lhs.independentBlendEnable == rhs.independentBlendEnable &&
             lhs.renderTarget0 == rhs.renderTarget0 &&
@@ -83,7 +83,7 @@ struct BlendStateDescription: Equatable, Hashable {
 
     /// Returns a hash code for this instance.
     /// - Returns: A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(alphaToCoverageEnable)
         hasher.combine(independentBlendEnable)
         hasher.combine(renderTarget0)

@@ -2,7 +2,7 @@ import Foundation
 
 /// How the pipeline interprets vertex data that is bound to the input-assembler stage.
 /// These primitive topology values determine how the vertex data is rendered on screen.
-enum PrimitiveTopology: UInt8 {
+public enum PrimitiveTopology: UInt8 {
     /// The IA stage has not been initialized with a primitive topology.
     case undefined = 0
     /// Interpret the vertex data as a list of points.

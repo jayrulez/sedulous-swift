@@ -7,17 +7,17 @@ public struct TextureDescription: Equatable, Hashable {
     /// Texture format `PixelFormat`.
     public var format: PixelFormat
     /// Texture width (in texels).
-    public var width: UInt
+    public var width: UInt32
     /// Texture height (in texels).
-    public var height: UInt
+    public var height: UInt32
     /// Texture depth (in texels).
-    public var depth: UInt
+    public var depth: UInt32
     /// Number of textures in the texture array.
-    public var arraySize: UInt
+    public var arraySize: UInt32
     /// Number of texture faces useful in TextureCube and TextureCubeArray.
-    public var faces: UInt
+    public var faces: UInt32
     /// The maximum number of mipmap levels in the texture.
-    public var mipLevels: UInt
+    public var mipLevels: UInt32
     /// The texture flags `TextureFlags`.
     public var flags: TextureFlags
     /// Value that identifies how the texture is to be read from and written to.
@@ -49,7 +49,7 @@ public struct TextureDescription: Equatable, Hashable {
     ///   - width: The texture width.
     ///   - format: The texture format.
     /// - Returns: The new texture 1D description.
-    public static func createTexture1DDescription(width: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTexture1DDescription(width: UInt32, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .texture1D
         description.width = width
@@ -63,7 +63,7 @@ public struct TextureDescription: Equatable, Hashable {
     ///   - height: The texture height.
     ///   - format: The texture format.
     /// - Returns: The new texture 2D description.
-    public static func createTexture2DDescription(width: UInt, height: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTexture2DDescription(width: UInt32, height: UInt32, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .texture2D
         description.width = width
@@ -79,7 +79,7 @@ public struct TextureDescription: Equatable, Hashable {
     ///   - depth: The texture depth.
     ///   - format: The texture format.
     /// - Returns: The new texture 3D description.
-    public static func createTexture3DDescription(width: UInt, height: UInt, depth: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTexture3DDescription(width: UInt32, height: UInt32, depth: UInt32, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .texture3D
         description.width = width
@@ -95,7 +95,7 @@ public struct TextureDescription: Equatable, Hashable {
     ///   - height: The texture height.
     ///   - format: The texture format.
     /// - Returns: The new texture cube description.
-    public static func createTextureCubeDescription(width: UInt, height: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTextureCubeDescription(width: UInt32, height: UInt32, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .textureCube
         description.width = width

@@ -18,7 +18,7 @@ public protocol Buffer: GraphicsResource {
 
 /// Default implementation for the touch method in the protocol extension
 public extension Buffer {
-    mutating func touch() {
+    func touch() {
         updateCounter += 1
     }
 }

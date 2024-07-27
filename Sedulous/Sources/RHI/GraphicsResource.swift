@@ -1,7 +1,7 @@
 import Foundation
 
 /// A protocol that provides common actions on all resources.
-public protocol GraphicsResource {
+public protocol GraphicsResource : AnyObject {
     /// The device context reference.
     var context: GraphicsContext { get }
 

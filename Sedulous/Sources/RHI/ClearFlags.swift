@@ -1,17 +1,22 @@
 import Foundation
 
 /// Specifies `FrameBuffer` clearing modes.
-struct ClearFlags: OptionSet, Hashable {
-    let rawValue: Int
+public struct ClearFlags: OptionSet, Hashable, Sendable {
+    public let rawValue: Int
 
     /// Do not clear.
-    static let none: ClearFlags = []
+    public static let none: ClearFlags = []
     /// Clear color target.
-    static let target = ClearFlags(rawValue: 1 << 0)
+    public static let target = ClearFlags(rawValue: 1 << 0)
     /// Clear depth target.
-    static let depth = ClearFlags(rawValue: 1 << 1)
+    public static let depth = ClearFlags(rawValue: 1 << 1)
     /// Clear the stencil target.
-    static let stencil = ClearFlags(rawValue: 1 << 2)
+    public static let stencil = ClearFlags(rawValue: 1 << 2)
     /// Clear color, depth and stencil target.
-    static let all: ClearFlags = [.target, .depth, .stencil]
+    public static let all: ClearFlags = [.target, .depth, .stencil]
+
+    public init(rawValue: Int)
+    {
+        self.rawValue = rawValue;
+    }
 }

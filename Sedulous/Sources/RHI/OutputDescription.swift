@@ -9,7 +9,7 @@ public struct OutputDescription: Equatable, Hashable {
     public let colorAttachments: [OutputAttachmentDescription]
     
     /// Gets the number of view counts.
-    public let arraySliceCount: UInt
+    public let arraySliceCount: UInt32
     
     /// The number of samples in each target attachment.
     public let sampleCount: TextureSampleCount
@@ -23,7 +23,7 @@ public struct OutputDescription: Equatable, Hashable {
     ///   - colors: An array of descriptions of each color attachment.
     ///   - sampleCount: The number of samples in each target attachment.
     ///   - arraySliceCount: The number of views rendered.
-    public init(depth: OutputAttachmentDescription?, colors: [OutputAttachmentDescription], sampleCount: TextureSampleCount, arraySliceCount: UInt) {
+    public init(depth: OutputAttachmentDescription?, colors: [OutputAttachmentDescription], sampleCount: TextureSampleCount, arraySliceCount: UInt32) {
         self.depthAttachment = depth
         self.colorAttachments = colors
         self.sampleCount = sampleCount
@@ -43,7 +43,7 @@ public struct OutputDescription: Equatable, Hashable {
     public static func createFromFrameBuffer(frameBuffer: FrameBuffer) -> OutputDescription {
         var sampleCount: TextureSampleCount = .none
         var depthAttachment: OutputAttachmentDescription? = nil
-        var arraySliceCount: UInt = 1
+        var arraySliceCount: UInt32 = 1
         
         if let depthStencilTarget = frameBuffer.depthStencilTarget {
             let depthDescription = depthStencilTarget.attachmentTexture.description
