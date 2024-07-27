@@ -33,8 +33,8 @@ public struct OutputDescription: Equatable, Hashable {
         for colorAttachment in colors {
             hashCode = (hashCode * 397) ^ colorAttachment.hashValue
         }
-        self.cachedHashCode = (hashCode * 397) ^ sampleCount.hashValue
-        self.cachedHashCode = (self.cachedHashCode * 397) ^ arraySliceCount.hashValue
+        hashCode = (hashCode * 397) ^ sampleCount.hashValue
+        self.cachedHashCode = (hashCode * 397) ^ arraySliceCount.hashValue
     }
     
     /// Create a new instance of `OutputDescription` from a `FrameBuffer`.

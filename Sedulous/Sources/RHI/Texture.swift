@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a Texture graphics resource.
-public protocol Texture: GraphicsResource {
+public protocol Texture: GraphicsResource, Hashable {
     /// The TextureDescription struct.
     var description: TextureDescription { get }
     

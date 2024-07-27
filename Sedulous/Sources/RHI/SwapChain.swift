@@ -29,7 +29,7 @@ public protocol SwapChain {
 
     /// Gets the current Framebuffer Texture.
     /// - Returns: Framebuffer texture.
-    func getCurrentFramebufferTexture() -> Texture
+    func getCurrentFramebufferTexture() -> any Texture
 
     /// This method is invoked when the frame is start.
     func initFrame()
