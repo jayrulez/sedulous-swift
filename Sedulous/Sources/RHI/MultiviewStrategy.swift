@@ -1,7 +1,7 @@
 import Foundation
 
 /// Indicates the strategy supported to render multiple views.
-enum MultiviewStrategy: UInt8 {
+public enum MultiviewStrategy: UInt8 {
     /// Multiview is not supported in this device.
     case unsupported
     /// Multiview is specified by output vertex RenderTargetIndex semantic, in combination with DrawInstancing.

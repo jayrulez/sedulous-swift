@@ -1,7 +1,7 @@
 import Foundation
 
 /// Describes the number of samples to use in a `Texture`.
-enum TextureSampleCount: UInt8 {
+public enum TextureSampleCount: UInt8 {
     /// No multisample.
     case none
     /// Multisample count of 2 pixels.

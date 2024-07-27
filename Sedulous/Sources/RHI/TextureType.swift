@@ -1,7 +1,7 @@
 import Foundation
 
 /// Texture type.
-enum TextureType: UInt8 {
+public enum TextureType: UInt8 {
     /// Represent a 2D texture.
     case texture2D
     /// Represent a 2D texture array.

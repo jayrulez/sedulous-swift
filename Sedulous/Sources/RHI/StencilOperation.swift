@@ -1,7 +1,7 @@
 import Foundation
 
 /// The stencil operations that can be performed during depth-stencil testing.
-enum StencilOperation: UInt8 {
+public enum StencilOperation: UInt8, Sendable {
     /// Keep the existing stencil data.
     case keep = 1
     /// Set the stencil data to 0.

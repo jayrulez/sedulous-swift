@@ -1,7 +1,7 @@
 import Foundation
 
 /// Comparison options.
-enum ComparisonFunction: UInt8 {
+public enum ComparisonFunction: UInt8, Sendable {
     /// Never pass the comparison.
     case never
     /// If the source data is less than the destination data, the comparison passes.

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Vertex element format.
-enum ElementFormat: Int {
+public enum ElementFormat: Int {
     /// One unsigned 8-bit value.
     case uByte
     /// Two unsigned 8-bit values.

@@ -1,7 +1,7 @@
 import Foundation
 
 /// The semantic meaning of a vertex element.
-enum ElementSemanticType: UInt8 {
+public enum ElementSemanticType: UInt8 {
     /// Describes a position.
     case position
     /// Describes a texture coordinate.

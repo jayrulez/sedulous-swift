@@ -1,31 +1,31 @@
 import Foundation
 
 /// Describes a 2D texture.
-struct TextureDescription: Equatable, Hashable {
+public struct TextureDescription: Equatable, Hashable {
     /// Texture type `TextureType`.
-    var type: TextureType
+    public var type: TextureType
     /// Texture format `PixelFormat`.
-    var format: PixelFormat
+    public var format: PixelFormat
     /// Texture width (in texels).
-    var width: UInt
+    public var width: UInt
     /// Texture height (in texels).
-    var height: UInt
+    public var height: UInt
     /// Texture depth (in texels).
-    var depth: UInt
+    public var depth: UInt
     /// Number of textures in the texture array.
-    var arraySize: UInt
+    public var arraySize: UInt
     /// Number of texture faces useful in TextureCube and TextureCubeArray.
-    var faces: UInt
+    public var faces: UInt
     /// The maximum number of mipmap levels in the texture.
-    var mipLevels: UInt
+    public var mipLevels: UInt
     /// The texture flags `TextureFlags`.
-    var flags: TextureFlags
+    public var flags: TextureFlags
     /// Value that identifies how the texture is to be read from and written to.
-    var usage: ResourceUsage
+    public var usage: ResourceUsage
     /// The number of samples in this texture.
-    var sampleCount: TextureSampleCount
+    public var sampleCount: TextureSampleCount
     /// Flags `ResourceCpuAccess` to specify the type of CPU access allowed.
-    var cpuAccess: ResourceCpuAccess
+    public var cpuAccess: ResourceCpuAccess
 
     private static var defaultValues: TextureDescription {
         return TextureDescription(
@@ -49,7 +49,7 @@ struct TextureDescription: Equatable, Hashable {
     ///   - width: The texture width.
     ///   - format: The texture format.
     /// - Returns: The new texture 1D description.
-    static func createTexture1DDescription(width: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTexture1DDescription(width: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .texture1D
         description.width = width
@@ -63,7 +63,7 @@ struct TextureDescription: Equatable, Hashable {
     ///   - height: The texture height.
     ///   - format: The texture format.
     /// - Returns: The new texture 2D description.
-    static func createTexture2DDescription(width: UInt, height: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTexture2DDescription(width: UInt, height: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .texture2D
         description.width = width
@@ -79,7 +79,7 @@ struct TextureDescription: Equatable, Hashable {
     ///   - depth: The texture depth.
     ///   - format: The texture format.
     /// - Returns: The new texture 3D description.
-    static func createTexture3DDescription(width: UInt, height: UInt, depth: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTexture3DDescription(width: UInt, height: UInt, depth: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .texture3D
         description.width = width
@@ -95,7 +95,7 @@ struct TextureDescription: Equatable, Hashable {
     ///   - height: The texture height.
     ///   - format: The texture format.
     /// - Returns: The new texture cube description.
-    static func createTextureCubeDescription(width: UInt, height: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
+    public static func createTextureCubeDescription(width: UInt, height: UInt, format: PixelFormat = .R8G8B8A8_UNorm) -> TextureDescription {
         var description = defaultValues
         description.type = .textureCube
         description.width = width
@@ -104,7 +104,7 @@ struct TextureDescription: Equatable, Hashable {
         return description
     }
 
-    static func ==(lhs: TextureDescription, rhs: TextureDescription) -> Bool {
+    public static func ==(lhs: TextureDescription, rhs: TextureDescription) -> Bool {
         return lhs.type == rhs.type &&
                lhs.format == rhs.format &&
                lhs.width == rhs.width &&
@@ -119,7 +119,7 @@ struct TextureDescription: Equatable, Hashable {
                lhs.cpuAccess == rhs.cpuAccess
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(type)
         hasher.combine(format)
         hasher.combine(width)
