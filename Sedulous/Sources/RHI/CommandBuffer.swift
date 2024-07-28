@@ -1,10 +1,6 @@
 import Foundation
-
-/// A command buffer stores commands until the buffer is committed for execution by the GPU.
-/// CommandBuffers are transient single-use objects and do not support reuse.
-public protocol CommandBuffer {
     /// Available states for a command buffer.
-    enum CommandBufferState {
+    public enum CommandBufferState {
         /// Before Begin has been called or after the reset method.
         case initial
         /// Between Begin and End. The command buffer is in a state where it can record commands.
@@ -14,6 +10,10 @@ public protocol CommandBuffer {
         /// After commit, the command buffer is in a state where it is waiting to be executed by the command queue.
         case committed
     }
+
+/// A command buffer stores commands until the buffer is committed for execution by the GPU.
+/// CommandBuffers are transient single-use objects and do not support reuse.
+public protocol CommandBuffer {
     
     /// Gets or sets the state of this command buffer.
     var state: CommandBufferState { get set }
@@ -63,9 +63,6 @@ public protocol CommandBuffer {
     
     /// Sets the compute pipeline state object for this command buffer.
     func setComputePipelineState(_ pipeline: ComputePipelineState)
-    
-    /// Sets the raytracing pipeline state object for this command buffer.
-    func setRaytracingPipelineState(_ pipeline: RaytracingPipelineState)
     
     /// Set the active resource set for the given index.
     func setResourceSet(_ resourceSet: ResourceSet, index: UInt, constantBufferOffsets: [UInt]?)
@@ -153,18 +150,6 @@ public protocol CommandBuffer {
     
     /// Ends a GPU query.
     func endQuery(heap: QueryHeap, index: UInt)
-    
-    /// Perform a bottom-level acceleration structure build on the GPU.
-    func buildRaytracingAccelerationStructure(blas: BottomLevelASDescription) -> BottomLevelAS
-    
-    /// Perform a top-level acceleration structure build on the GPU.
-    func buildRaytracingAccelerationStructure(tlas: TopLevelASDescription) -> TopLevelAS
-    
-    /// Refit a top-level acceleration structure build on the GPU.
-    func updateRaytracingAccelerationStructure(tlas: inout TopLevelAS, newDescription: TopLevelASDescription)
-    
-    /// Launch threads of a ray generation shader.
-    func dispatchRays(_ description: DispatchRaysDescription)
     
     /// Clear all cached values of this command buffer.
     func clearCache()

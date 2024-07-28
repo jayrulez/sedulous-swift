@@ -1,7 +1,7 @@
 import Foundation
 
 /// Protocol representing the GPU graphics pipeline.
-protocol ComputePipelineState: PipelineState {
+public protocol ComputePipelineState: PipelineState {
     /// The compute pipeline state description.
     var description: ComputePipelineDescription { get }
 

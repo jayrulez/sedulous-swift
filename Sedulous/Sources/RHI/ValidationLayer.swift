@@ -30,7 +30,12 @@ public class ValidationLayer {
     }
 
     /// Pointer to Notify function.
-    public var notify: NotifyAction
+    private var notifyAction: NotifyAction
+
+    public func notify(label: String, message: String, severity: Severity = .error)
+    {
+        self.notifyAction(label, message, .error);
+    }
 
     /// Event that allow to obtain the error messages if NotifyMethod is set to Events.
     public var error: ((Severity, String) -> Void)?
@@ -40,18 +45,18 @@ public class ValidationLayer {
     public init(method: NotifyMethod = .exceptions) {
         switch method {
         case .exceptions:
-            self.notify = ValidationLayer.notifyException
+            self.notifyAction = ValidationLayer.notifyException
         case .trace:
-            self.notify = ValidationLayer.notifyTrace
+            self.notifyAction = ValidationLayer.notifyTrace
         case .events:
-            self.notify = ValidationLayer.notifyEvent
+            self.notifyAction = ValidationLayer.notifyEvent
         }
     }
 
     /// Initializes a new instance of the `ValidationLayer` class.
     /// - Parameter function: The callback function called for every error detection.
     public init(function: @escaping NotifyAction) {
-        self.notify = function
+        self.notifyAction = function
     }
 
     /// Creates a command queue validation layer.
@@ -77,12 +82,6 @@ public class ValidationLayer {
         // if description.shaderDescription == nil {
         //     notifyInternal(message: "The compute shader cannot be null in a ComputePipeline.")
         // }
-    }
-
-    /// Creates a raytracing pipeline validation layer.
-    /// - Parameter description: The raytracing pipeline description.
-    public func createRaytracingPipelineValidation(description: inout RaytracingPipelineDescription) {
-        // Implement as needed
     }
 
     /// Creates a texture validation layer.
@@ -287,6 +286,6 @@ public class ValidationLayer {
     }
 
     private func notifyInternal(message: String) -> Void  {
-        notify("Sedulous", message, .error)
+        notifyAction("Sedulous", message, .error)
     }
 }

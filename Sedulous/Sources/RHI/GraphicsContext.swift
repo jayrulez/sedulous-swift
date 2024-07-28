@@ -24,7 +24,7 @@ public protocol GraphicsContext: AnyObject {
     var defaultSampler: SamplerState? { get }
     
     /// Gets the graphics validation layer pointer.
-    var validationLayer: ValidationLayer? { get }
+    var validationLayer: ValidationLayer? { get set }
     
     /// Gets a value indicating whether validation layer is enabled or disabled.
     var isValidationLayerEnabled: Bool { get }
