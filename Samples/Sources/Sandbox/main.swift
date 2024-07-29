@@ -4,7 +4,7 @@ import SedulousPlatform
 
 class TestSystem : System {
 
-    private var info: ContextUpdateFunctionInfo?;
+    private var updateFunctionId: Context.RegisteredUpdateFunctionID?;
 
     public init()
     {
@@ -12,14 +12,13 @@ class TestSystem : System {
     }
 
     override func onInitialize(_ context: Context) {
-        info = .init(function: onUpdate);
-        context.registerUpdateFunction(info!);
+        updateFunctionId = context.registerUpdateFunction(.init(function: onUpdate));
     }
 
     override func onShutdown() {
-        if let info {
-            context?.unregisterUpdateFunction(info);
-            self.info = nil;
+        if let updateFunctionId {
+            context?.unregisterUpdateFunction(updateFunctionId);
+            self.updateFunctionId = nil;
         }
     }
 

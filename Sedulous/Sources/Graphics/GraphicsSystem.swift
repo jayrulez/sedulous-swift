@@ -3,7 +3,7 @@ import SedulousRHI
 
 public class GraphicsSystem : System
 {
-    private var info: ContextUpdateFunctionInfo?;
+    private var updateFunctionId: Context.RegisteredUpdateFunctionID?;
     private var device: GraphicsDevice? = nil;
 
     public init(_ device: GraphicsDevice)
@@ -17,14 +17,13 @@ public class GraphicsSystem : System
     }
 
     public override func onInitialize(_ context: Context) {
-        info = .init(function: onUpdate);
-        context.registerUpdateFunction(info!);
+        updateFunctionId = context.registerUpdateFunction(.init(function: onUpdate));
     }
 
     public override func onShutdown() {
-        if let info {
-            context?.unregisterUpdateFunction(info);
-            self.info = nil;
+        if let updateFunctionId {
+            context?.unregisterUpdateFunction(updateFunctionId);
+            self.updateFunctionId = nil;
         }
     }
 

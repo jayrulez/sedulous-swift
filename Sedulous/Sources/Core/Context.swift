@@ -21,16 +21,6 @@ public struct ContextUpdateInfo
 
 public typealias ContextUpdateFunction = (_ info : ContextUpdateInfo) -> Void
 
-// public struct ContextUpdateClosure
-// {
-//     private var closure: ContextUpdateFunction;
-
-//     public init(_ closure: @escaping ContextUpdateFunction)
-//     {
-//         self.closure = closure;
-//     }
-// }
-
 public struct ContextUpdateFunctionInfo
 {
     public var priority : Int;
@@ -49,11 +39,12 @@ public class Context
 {
     fileprivate struct RegisteredUpdateFunctionInfo
 	{
+        public var id: RegisteredUpdateFunctionID;
 		public var priority: Int;
 		public var function: ContextUpdateFunction;
 	}
 
-    public typealias RegisteredUpdateFunctionID = UUID;
+    public typealias RegisteredUpdateFunctionID = (id: UUID, stage: ContextUpdateStage);
 
     public private(set) var host: ContextHost;
 
@@ -72,8 +63,8 @@ public class Context
     public var inactiveSleepTime: TimeSpan = defaultInactiveSleepTime;
 
     private var updateFunctions: Dictionary<ContextUpdateStage, Array<RegisteredUpdateFunctionInfo>> = .init();
-	private var updateFunctionsToRegister: Array<ContextUpdateFunctionInfo> = .init();
-	private var updateFunctionsToUnregister: Array<ContextUpdateFunctionInfo> = .init();
+	private var updateFunctionsToRegister: Array<RegisteredUpdateFunctionInfo> = .init();
+	private var updateFunctionIdsToUnregister: Array<RegisteredUpdateFunctionID> = .init();
 
     private var systems: [System] = .init();
 
@@ -122,64 +113,54 @@ package extension Context
 
 extension Context
 {
+    fileprivate func sortUpdateFunctions()
+    {
+        for stage: ContextUpdateStage in ContextUpdateStage.allCases
+        {
+            updateFunctions[stage]!.sort { lhs, rhs in
+                return lhs.priority > rhs.priority
+            }
+        }
+    }
+
+    fileprivate func runUpdateFunctions(_ phase: ContextUpdateStage , _ info: ContextUpdateInfo)
+    {
+        for updateFunctionInfo: RegisteredUpdateFunctionInfo in updateFunctions[phase]!
+        {
+            updateFunctionInfo.function(info);
+        }
+    }
+    
+    fileprivate func processUpdateFunctionsToRegister()
+    {
+        if updateFunctionsToRegister.count == 0 { return; }
+
+        for info: RegisteredUpdateFunctionInfo in updateFunctionsToRegister
+        {
+            updateFunctions[info.id.stage]!.append(info);
+        }
+        updateFunctionsToRegister.removeAll();
+        sortUpdateFunctions();
+    }
+    
+    fileprivate func processUpdateFunctionsToUnregister()
+    {
+        if updateFunctionIdsToUnregister.count == 0 { return; }
+
+        for entry: RegisteredUpdateFunctionID in updateFunctionIdsToUnregister
+        {
+            if let index: Array<RegisteredUpdateFunctionInfo>.Index = updateFunctions[entry.stage]!.firstIndex(where: { registered in
+                return registered.id.id == entry.id;
+            }) {
+                updateFunctions[entry.stage]!.remove(at: index);
+            }
+        }
+        updateFunctionIdsToUnregister.removeAll();
+        sortUpdateFunctions();
+    }
+
     package func update(_ time: Time)
     {
-        func sortUpdateFunctions()
-        {
-            for stage: ContextUpdateStage in ContextUpdateStage.allCases
-            {
-                updateFunctions[stage]!.sort { lhs, rhs in
-                    return lhs.priority > rhs.priority
-                }
-            }
-        }
-
-        func runUpdateFunctions(_ phase: ContextUpdateStage , _ info: ContextUpdateInfo)
-        {
-            for updateFunctionInfo: RegisteredUpdateFunctionInfo in updateFunctions[phase]!
-            {
-                updateFunctionInfo.function(info);
-            }
-        }
-
-        func processUpdateFunctionsToRegister()
-        {
-            if updateFunctionsToRegister.count == 0 { return; }
-
-			for info: ContextUpdateFunctionInfo in updateFunctionsToRegister
-			{
-                // guard updateFunctions[info.stage] != nil else {
-                //     fatalError("Registry for \(info.stage) wasn't initialized.");
-                // }
-				updateFunctions[info.stage]!.append(.init(priority: info.priority, function: info.function));
-			}
-			updateFunctionsToRegister.removeAll();
-			sortUpdateFunctions();
-        }
-
-        func processUpdateFunctionsToUnregister()
-        {
-            if updateFunctionsToUnregister.count == 0 {
-				return;
-            }
-
-            func getAddress(of closure: @escaping ContextUpdateFunction) -> UnsafePointer<ContextUpdateFunction> {
-                return withUnsafePointer(to: closure) { pointer in
-                    return pointer;
-                }
-            }
-
-			for info: ContextUpdateFunctionInfo in updateFunctionsToUnregister
-			{
-				if let index: Array<RegisteredUpdateFunctionInfo>.Index = updateFunctions[info.stage]!.firstIndex(where: { registered in
-                    return getAddress(of: registered.function) == getAddress(of: info.function);
-                }) {
-					updateFunctions[info.stage]!.remove(at: index);
-				}
-			}
-			updateFunctionsToUnregister.removeAll();
-			sortUpdateFunctions();
-        }
         do {
 			processUpdateFunctionsToRegister();
 			processUpdateFunctionsToUnregister();
@@ -237,25 +218,29 @@ extension Context
         }
     }
 
-    public func registerUpdateFunction(_ info: ContextUpdateFunctionInfo) {
-        updateFunctionsToRegister.append(info);
+    public func registerUpdateFunction(_ info: ContextUpdateFunctionInfo) -> RegisteredUpdateFunctionID {
+        let registered: RegisteredUpdateFunctionInfo = .init(id: (id: UUID(), stage: info.stage), priority: info.priority, function: info.function);
+        updateFunctionsToRegister.append(registered);
+        return registered.id;
     }
 
-    public func registerUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) {
+    public func registerUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) -> [RegisteredUpdateFunctionID] {
+        var ids: [RegisteredUpdateFunctionID] = .init();
         for info: ContextUpdateFunctionInfo in infos
 		{
-			updateFunctionsToRegister.append(info);
+			ids.append(registerUpdateFunction(info));
 		}
+        return ids;
     }
 
-    public func unregisterUpdateFunction(_ info: ContextUpdateFunctionInfo) {
-        updateFunctionsToUnregister.append(info);
+    public func unregisterUpdateFunction(_ id: RegisteredUpdateFunctionID) {
+        updateFunctionIdsToUnregister.append(id);
     }
 
-    public func unregisterUpdateFunctions(_ infos: Array<ContextUpdateFunctionInfo>) {
-        for info: ContextUpdateFunctionInfo in infos
+    public func unregisterUpdateFunctions(_ ids: [RegisteredUpdateFunctionID]) {
+        for entry: RegisteredUpdateFunctionID in ids
 		{
-			updateFunctionsToUnregister.append(info);
+			updateFunctionIdsToUnregister.append(entry);
 		}
     }
 } 
