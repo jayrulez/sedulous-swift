@@ -53,6 +53,8 @@ public class Context
 		public var function: ContextUpdateFunction;
 	}
 
+    public typealias RegisteredUpdateFunctionID = UUID;
+
     public private(set) var host: ContextHost;
 
     private let preUpdateTimeTracker: TimeTracker = .init();

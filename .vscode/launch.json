@@ -47,6 +47,30 @@
             "name": "Release RHI (Samples)",
             "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\release\\RHI.exe",
             "preLaunchTask": "swift: Build Release RHI (Samples)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:sedulous-swift}\\Samples",
+            "name": "Debug Graphics (Samples)",
+            "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\debug\\Graphics.exe",
+            "preLaunchTask": "swift: Build Debug Graphics (Samples)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:sedulous-swift}\\Samples",
+            "name": "Release Graphics (Samples)",
+            "program": "${workspaceFolder:sedulous-swift}\\Samples\\.build\\release\\Graphics.exe",
+            "preLaunchTask": "swift: Build Release Graphics (Samples)"
         }
     ]
 }
